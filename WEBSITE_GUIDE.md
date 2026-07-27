@@ -1,213 +1,149 @@
-# Vertex AI - Website Summary
+# Website guide
 
-## 🎉 Your Professional Website is READY!
-
-I've created a complete, production-ready professional website for Vertex AI with premium design and advanced animations.
+A page-by-page map of what is on the site and which file produces it.
 
 ---
 
-## ✨ What You Get
+## `/` — Home
 
-### 1. **Professional Design**
-- Clean, modern aesthetic with professional blue color scheme
-- Professional gradient text and animations
-- Premium glass-morphism effects
-- Fully responsive (mobile-first approach)
+**File:** `app/(home)/page.tsx` · **Styles:** `styles/home.css` (scoped to `body.home`)
 
-### 2. **Complete Sections**
-- **Hero Section** - Parallax background, gradient title, CTAs
-- **About** - Company mission and value propositions
-- **Services** - 6 services with 3D hover cards (App Dev, ERP, ML, Cloud, Data Analytics, Security)
-- **Portfolio** - Case studies showcase with overlay animations
-- **Team** - Team member cards with social links
-- **Blog** - Blog section with 3 sample posts
-- **Contact** - Contact form + location/phone/email info
-- **Header** - Sticky navigation with smooth scroll
-- **Footer** - Links, company info, social media
+| Section          | Contents                                                      |
+| ---------------- | ------------------------------------------------------------- |
+| Info strip       | Location, phone, email — from `lib/site.ts`                   |
+| Header           | Two-line logo, four dropdowns, theme toggle, CTA              |
+| Hero             | `core` WebGL scene, badge, headline, two CTAs, six service pills |
+| Stats bar        | Four counters that roll up on scroll (`data-count`)           |
+| Trust marquee    | Scrolling industry list                                       |
+| About            | Figure image + "What we do" list                              |
+| Services         | Three cards, expanding to six (`ServicesGrid`)                |
+| Testimonials     | Three client quotes                                           |
+| CTA band         | Rotating stamp + contact button                               |
+| Footer           | Four columns: brand, services, company, contact               |
 
-### 3. **Advanced Animations**
-✅ Parallax effect on hero  
-✅ Smooth fade-in-up animations on scroll  
-✅ 3D flip effects on service cards  
-✅ Zoom and slide effects on portfolio items  
-✅ Hover animations on all interactive elements  
-✅ Gradient text animations  
-✅ Animated stat counters  
-✅ Smooth transitions (0.3-0.6s)  
-
-### 4. **Professional Features**
-✅ SEO Optimized  
-✅ Fast Performance (no build needed)  
-✅ Fully Responsive  
-✅ Accessible (WCAG compliant)  
-✅ Contact Form with Validation  
-✅ Smooth Scroll Navigation  
-✅ Mobile Menu Support  
-✅ Custom Scrollbar Styling  
+Unique to this page: the intro loader, the scroll progress bar, and the
+"sheet" dividers (`Sheet 02 — Company`) from the blueprint design language.
 
 ---
 
-## 🚀 Getting Started (3 Options)
+## `/about` — About Us
 
-### Option A: View Right Now (Fastest ⚡)
-```
-1. Open: index.html
-2. That's it! Browse the website
-3. All animations work immediately
-```
+**File:** `app/(site)/about/page.tsx`
 
-### Option B: Run as Development Server
-```bash
-npm install
-npm run dev
-# Open http://localhost:3000
-```
-
-### Option C: Deploy Live
-- **Netlify**: Drag & drop index.html
-- **Vercel**: Connect GitHub repo
-- **GitHub Pages**: Free hosting
-- **Traditional Hosting**: FTP upload
+Hero with the `lattice` scene · founding story · team photo · six value
+cards (tilt-enabled) · closing CTA.
 
 ---
 
-## 📝 Quick Customization
+## `/services` — Services
 
-### Change Company Info
-Edit in `index.html`:
-- Line ~1200: Company name and description
-- Line ~1250: Phone number, email, address
-- Line ~800-900: Team member details
-- Line ~600-700: Services descriptions
+**File:** `app/(site)/services/page.tsx`
 
-### Change Colors (3 places to update)
-Search for these color codes in `index.html`:
-```
-#2563eb  → Primary Blue
-#1d4ed8  → Secondary Blue  
-#3b82f6  → Accent Blue
-```
+Seven detailed service cards, each with an anchor id so the header dropdown
+can deep-link:
 
-### Add Your Logo
-Replace logo section (line ~180) with your image
-
-### Update Services
-Edit the 6 service cards (line ~2436-2473) with your services
+| Anchor         | Service              |
+| -------------- | -------------------- |
+| `#web`         | Web Development      |
+| `#apps`        | Enterprise Apps      |
+| `#erp`         | ERP Systems          |
+| `#ml`          | Machine Learning     |
+| `#analytics`   | Data Analytics & BI  |
+| `#cloud`       | Cloud & DevOps       |
+| `#maintenance` | Maintenance & AMC    |
 
 ---
 
-## 📁 File Structure
+## `/products` — Our Work
 
-```
-Vertex AI/
-├── index.html              ⭐ MAIN FILE - Open this!
-├── package.json            Dependencies
-├── next.config.js          Next.js config
-├── tailwind.config.js      Tailwind config
-├── tsconfig.json           TypeScript config
-├── postcss.config.js       PostCSS config
-├── README.md               Full documentation
-├── QUICKSTART.md           Quick start guide
-└── setup.sh                Setup helper script
-```
+**File:** `app/(site)/products/page.tsx`
+
+- `#portfolio` — six case-study cards with images
+- `#tech` — the technology stack, grouped by category
 
 ---
 
-## 🎨 Design Specifications
+## `/process` — How We Work
 
-**Color Palette:**
-- Primary: #003366 (Deep Blue)
-- Secondary: #0066cc (Professional Blue)
-- Accent: #00d9ff (Cyan)
-- Background: #ffffff (White)
-- Text: #2d3748 (Dark Gray)
-- Light BG: #f8fafb (Light Gray)
+**File:** `app/(site)/process/page.tsx`
 
-**Typography:**
-- Font: Inter (Google Fonts)
-- Headings: 800 weight
-- Body: 400-600 weight
-
-**Spacing:**
-- Sections: 6rem padding
-- Cards: 2rem padding
-- Gaps: 2-3rem
-
-**Animations:**
-- Duration: 0.3-0.6 seconds
-- Easing: ease-out, cubic-bezier
-- Parallax: 6-10 second loops
+Three guarantee cards (14-day demo, fixed quote, 30-day hypercare) followed
+by a four-step timeline: Discovery → Design → Build → Launch. Each step
+lists its deliverables.
 
 ---
 
-## ✅ Features Checklist
+## `/insights` — Insights
 
-- [x] Professional Design
-- [x] Advanced Animations
-- [x] Responsive Layout
-- [x] All 7 Sections (Home, About, Services, Portfolio, Team, Blog, Contact)
-- [x] Smooth Scroll Navigation
-- [x] Contact Form
-- [x] SEO Optimized
-- [x] Mobile Responsive
-- [x] Fast Loading
-- [x] No External Dependencies (for HTML version)
-- [x] Accessibility Compliant
-- [x] Modern Browser Support
-- [x] Production Ready
+**File:** `app/(site)/insights/page.tsx` · **Data:** `lib/content.ts`
+
+- `#blog` — three article cards
+- `#faq` — five-question accordion (`FaqAccordion`, single-open, keyboard
+  operable)
 
 ---
 
-## 🚀 Next Steps
+## `/contact` — Contact
 
-1. **Now**: Open `index.html` in a browser
-2. **Today**: Customize with your company info
-3. **This Week**: Deploy to web
-4. **Future**: Add backend services (email, CMS, etc.)
+**File:** `app/(site)/contact/page.tsx` · **Form:** `components/sections/ContactForm.tsx`
 
----
-
-## 📊 Browser Support
-
-✅ Chrome/Edge (Latest)  
-✅ Firefox (Latest)  
-✅ Safari (Latest)  
-✅ Mobile Browsers  
-✅ IE11 (with polyfills)  
+Four contact cards (phone, WhatsApp, email, address) beside the enquiry
+form. The form posts to `/api/contact`; see [DEPLOYMENT.md](DEPLOYMENT.md)
+for wiring up delivery.
 
 ---
 
-## 💡 Pro Tips
+## 404
 
-1. **Edit Content**: All content is in index.html - easy to find and change
-2. **Add Sections**: Copy existing section HTML and customize
-3. **Modify Animations**: Edit CSS keyframes for different effects
-4. **Deploy**: Push to GitHub, connect Vercel, done!
-5. **Upgrade**: package.json is ready for Next.js upgrade anytime
+**File:** `app/not-found.tsx`
 
----
-
-## 🎯 Performance Metrics
-
-- Page Load: < 50ms
-- Time to Interactive: < 100ms
-- Lighthouse Score: 95+ (expected)
-- Mobile Friendly: 100%
-- Animations: 60 FPS smooth
+Large `404`, explanation, and two escape routes. Carries the `lattice`
+scene and its own header/footer, since it renders outside the `(site)`
+group. Marked `noindex`.
 
 ---
 
-## 📞 Quick Reference
+## Cross-cutting elements
 
-**Colors to Change**: Search "2563eb", "1d4ed8", "3b82f6"  
-**Company Name**: Search "Vertex AI"  
-**Contact Info**: Line ~2790-2835  
-**Team Members**: Line ~2595-2667  
-**Services**: Line ~2430-2474  
-**Portfolio**: Line ~2477-2527  
+| Element               | Component                              | Appears on |
+| --------------------- | -------------------------------------- | ---------- |
+| WhatsApp float button | `components/ui/WhatsAppButton.tsx`     | every page |
+| Back-to-top           | `ScrollTopButton` / `HomeChrome`       | every page |
+| Theme toggle          | `components/ui/ThemeToggle.tsx`        | every page |
+| Skip-to-content link  | `(site)/layout.tsx`, `(home)/page.tsx` | every page |
 
 ---
 
-**Everything is ready! Your professional website is complete and waiting to impress your clients. 🎉**
+## Behaviour
 
-*Open index.html now and see it in action!*
+**Scroll reveals** — elements with `.reveal` or `.reveal-3d` fade and lift
+into place via one IntersectionObserver per page. Add `.d1`–`.d6` to
+stagger a grid.
+
+**Counters** — any element with `data-count="120"` and optional
+`data-suffix="+"` rolls up when scrolled into view.
+
+**Card tilt** — `data-tilt` on a card tracks the pointer in 3D with a
+specular sweep. Disabled on touch devices and under reduced motion.
+
+**Theme** — one `dark-mode` class on `<body>`, applied before first paint,
+persisted in `localStorage` under `apexTheme`, and broadcast to the WebGL
+scenes so they repaint their palettes.
+
+**Navigation** — dropdowns open on hover on desktop and on tap below 768px
+(760px on the homepage). Escape closes the mobile menu; it also closes on
+outside click and on route change.
+
+---
+
+## Accessibility
+
+- Skip link on every page, visible on focus
+- Semantic landmarks: `<header>`, `<nav aria-label="Main">`, `<main>`, `<footer>`
+- Hamburger and dropdowns expose `aria-expanded` / `aria-controls`
+- Active nav item carries `aria-current="page"`
+- FAQ questions are real buttons with `aria-expanded` and labelled panels
+- Form controls have associated `<label>`s and `autoComplete` hints
+- Submission results are announced via `role="status"` and `role="alert"`
+- Decorative icons are `aria-hidden`; canvases are `aria-hidden`
+- All animation respects `prefers-reduced-motion`

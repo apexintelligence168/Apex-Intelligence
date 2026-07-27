@@ -1,0 +1,179 @@
+/* ==========================================================================
+   APEX INTELLIGENCE — BASE
+   Reset, design tokens and the widgets that appear on every route.
+   Loaded by app/layout.tsx, so it applies to the homepage too.
+   Component styles live in globals.css, which the homepage does NOT
+   load — index.html never linked shared.css and 19 of its selectors
+   collide with the homepage's own.
+   ========================================================================== */
+
+/* ════════════════════════════════════════════════════════════════ */
+/* SHARED STYLESHEET - All Pages */
+/* ════════════════════════════════════════════════════════════════ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #F7F4EE;
+    --bg-tertiary: #F0EAE0;
+    --text-primary: #171310;
+    --text-secondary: #5B5650;
+    --primary-color: #E4570F;
+    --primary-dark: #B83D08;
+    --accent-color: #FF7A3D;
+    --accent-dark: #B83D08;
+    --accent-light: #FFB98A;
+    --accent-bg: #FFF1E8;
+    --accent-glow: rgba(228, 87, 15, 0.18);
+    --border-light: rgba(228, 87, 15, 0.22);
+}
+
+body.dark-mode {
+    --bg-primary: #15120F;
+    --bg-secondary: #201B16;
+    --bg-tertiary: #2B241D;
+    --text-primary: #ffffff;
+    --text-secondary: #C9BEB2;
+    --primary-color: #FF7A3D;
+    --primary-dark: #E4570F;
+    --accent-color: #FF9A66;
+    --accent-dark: #FF7A3D;
+    --accent-light: #FFB98A;
+    --accent-bg: rgba(255, 122, 61, 0.14);
+    --accent-glow: rgba(255, 122, 61, 0.2);
+    --border-light: rgba(255, 122, 61, 0.2);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-inter), sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, .logo, .section-title, .page-hero h1 {
+    font-family: var(--font-jakarta), var(--font-inter), sans-serif;
+    letter-spacing: -0.01em;
+}
+
+/* ── APEX MARK — signature ascent chevron used as a recurring accent ── */
+.apex-mark {
+    display: inline-block;
+    width: 0.6em;
+    height: 0.6em;
+    margin-right: 0.4em;
+    background: var(--primary-color);
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    vertical-align: middle;
+}
+
+::selection {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+/* ── WHATSAPP BUTTON ── */
+#whatsapp-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #25d366;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+    z-index: 9999;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: waPulse 2.5s ease-in-out infinite;
+}
+#whatsapp-btn:hover {
+    transform: scale(1.12);
+    box-shadow: 0 12px 32px rgba(37,211,102,0.55);
+    animation: none;
+}
+@keyframes waPulse {
+    0%,100% { box-shadow: 0 8px 24px rgba(37,211,102,0.4); }
+    50%      { box-shadow: 0 8px 36px rgba(37,211,102,0.7); }
+}
+
+/* ── SCROLL TO TOP ── */
+#scrollTopBtn {
+    position: fixed;
+    bottom: 6rem;
+    right: 2rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary-color);
+    color: #fff;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.35s ease;
+    z-index: 9998;
+    box-shadow: 0 6px 20px rgba(228,87,15,0.3);
+    font-size: 1rem;
+}
+body.dark-mode #scrollTopBtn {
+    color: #15120F;
+    box-shadow: 0 6px 20px rgba(255, 122, 61, 0.3);
+}
+#scrollTopBtn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+#scrollTopBtn:hover { transform: translateY(-4px); }
+
+/* ── NEXT/IMAGE INTRINSIC SIZING ────────────────────────────────── */
+/* next/image emits width/height attributes to reserve space and avoid
+   layout shift. Without `height: auto` the attribute height wins once
+   the width is constrained, which stretches the image. Rules that set
+   an explicit height (.blog-image img, .portfolio-item img …) are more
+   specific and still take precedence. */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ── SKIP LINK ──────────────────────────────────────────────────── */
+/* Off-screen until focused, so keyboard users get a way past the nav
+   without the link occupying any layout space for everyone else. */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100000;
+    padding: 0.75rem 1.25rem;
+    background: #E4570F;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 0 0 8px 0;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    left: 0;
+}

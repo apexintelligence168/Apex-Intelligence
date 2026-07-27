@@ -1,359 +1,226 @@
-# 🎉 NextGen AI Solution - Website Complete!
+# Migration completion report
 
-## ✨ Your Professional Website is Ready!
-
-I've created a **complete, production-ready professional website** for your NextGen AI Solution startup.
+**Project:** Apex Intelligence marketing site
+**Migration:** static HTML → Next.js 14 (App Router) + TypeScript
+**Date:** 28 July 2026
+**Status:** complete, builds clean, ready to deploy
 
 ---
 
-## 📦 What You Have
+## Objective
 
-### ✅ Complete Website Files
+Convert the existing site to a production-ready Next.js 14 application that
+deploys to Vercel with zero configuration, **without changing how the site
+looks**. This was a migration and optimisation exercise, not a redesign.
+
+---
+
+## Result
+
+| Check                          | Status                                            |
+| ------------------------------ | ------------------------------------------------- |
+| Visual parity                  | ✅ 6 of 7 pages within 0–5px; home within 27px    |
+| Both themes                    | ✅ light and dark verified separately             |
+| `npm run build`                | ✅ compiles, 12 routes generated                  |
+| `npm run lint`                 | ✅ no warnings or errors                          |
+| `npm run typecheck`            | ✅ clean (strict mode)                            |
+| Console errors                 | ✅ none on any route                              |
+| 3D scenes                      | ✅ mount and render on all 8 pages                |
+| Navigation                     | ✅ client-side, theme and scoping survive it      |
+| Contact API                    | ✅ 422 on invalid, 200 on valid                   |
+| Vercel-ready                   | ✅ no config files needed                         |
+
+---
+
+## Verification method
+
+Rather than eyeballing screenshots, the original site and the migrated build
+were served simultaneously (`:5500` and `:3000`) and driven through the
+Chrome DevTools Protocol in headless Chrome at 1440×900, in both themes.
+
+For each page pair the harness compared: `h1` text, theme class, canvas
+count and ready state, tilt-element count, card count, heading count,
+computed body background, body colour, header background, and total document
+height — then captured matched screenshots.
+
+**Final measurements (light theme, document height in px):**
+
+| Page      | Original | Migrated | Δ  |
+| --------- | -------- | -------- | -- |
+| Home      | 4739     | 4712     | 27 |
+| About     | 4204     | 4204     | 0  |
+| Services  | 3600     | 3605     | 5  |
+| Products  | 2282     | 2282     | 0  |
+| Insights  | 2275     | 2275     | 0  |
+| Process   | 3982     | 3982     | 0  |
+| Contact   | 1576     | 1576     | 0  |
+
+Dark theme matched the same way. Section-level measurement on the homepage
+confirmed hero, trust, about, services, testimonials, CTA and footer are
+each **identical to the pixel**.
+
+The homepage's 27px is the removed `#toast` element — dead markup driven by
+a `showToast()` function that was never called.
+
+---
+
+## Four bugs the migration surfaced
+
+These were found by measurement, not assumption, and each is fixed.
+
+**1. Homepage style collisions — the significant one.**
+The original `index.html` was self-contained; it never linked `shared.css`.
+Once both stylesheets loaded together, 19 selectors collided and silently
+changed the homepage: `.logo` gained `gap: 0.5rem`, `.about-grid` gained
+`margin-top: 2rem`, `.footer-socials` gained `margin-top: 1.5rem`. These
+could not be overridden by import order, because `globals.css` was setting
+properties `home.css` never declared. Fixed by splitting the shared
+stylesheet into `base.css` (universal) and `globals.css` (components, loaded
+only by the `(site)` group), and scoping `home.css` under `body.home`.
+
+**2. Stretched images.** `next/image` emits `width`/`height` attributes.
+With `max-width: 100%` and no `height: auto`, the attribute height wins and
+distorts the image — the about figure rendered 489×549 instead of 474×304.
+
+**3. Underlined buttons.** Hero and CTA actions became `<Link>` elements
+because they navigate. Anchors inherit the body underline and the 1.65
+line-height that buttons do not, making them 56px tall instead of 51px.
+
+**4. Collapsed card tilt.** In the ported `useTilt` hook,
+`Number(getAttribute(...))` returns `0` for a missing attribute, not `NaN` —
+so the `Number.isNaN` guard never fired and the default 18px `translateZ`
+silently became 0 on every card. Switched to `parseFloat`.
+
+---
+
+## Files
+
+### Created (46)
+
 ```
-c:\Users\91772\Desktop\NextGen AI\
-├── index.html                 ⭐ MAIN FILE - Your complete website
-├── QUICKSTART.md              Quick start instructions  
-├── WEBSITE_GUIDE.md           Full feature guide
-├── CUSTOMIZATION.md           How to customize everything
-├── README.md                  Technical documentation
-├── package.json               Next.js dependencies
-├── tsconfig.json              TypeScript config
-├── tailwind.config.js         Tailwind CSS config
-├── postcss.config.js          PostCSS config
-├── next.config.js             Next.js config
-├── setup.sh                   Setup helper
-└── .gitignore                 Git ignore rules
+app/               13   layout, 8 pages, 404, api route, sitemap, robots
+components/        17   home (5), layout (4), sections (2), three (3), ui (3)
+hooks/              6   theme, reveal, tilt, magnetic, scroll, media query
+lib/                2   site config, FAQ content
+styles/             5   base, globals, pages, home, 3d
+types/              1   shared types
+public/             2   icon, OG image
+config/             4   next.config.mjs, tsconfig.json, .eslintrc.json, .gitignore
+docs/               8   README + 7 guides
 ```
 
----
+### Removed (14)
 
-## 🚀 Getting Started
+Eight HTML pages · `shared.css` · `shared.js` · `apex-3d.css` ·
+`apex-3d.js` · `apex-ui.js` · `vendor/three.module.min.js` ·
+`tailwind.config.js` · `postcss.config.js` · `setup.sh`
 
-### The Easiest Way (No Installation Needed)
-1. Open `c:\Users\91772\Desktop\NextGen AI\index.html` in any web browser
-2. That's it! Your complete website is ready to use immediately
-3. All animations and features work perfectly
+### Rewritten
 
-### See It Live Right Now
-Double-click `index.html` or right-click → "Open with Browser"
-
----
-
-## 🎨 What's Included
-
-### 7 Complete Sections
-1. **Hero** - Eye-catching parallax background with gradient title
-2. **About** - Company mission and value propositions
-3. **Services** - 6 professional service cards with 3D effects
-4. **Portfolio** - 6 case study showcases with hover animations
-5. **Team** - 4 team member cards with social links
-6. **Blog** - Blog section with 3 sample posts
-7. **Contact** - Full contact form with location details
-
-### Premium Features
-✅ Sticky navigation header  
-✅ Smooth scroll animations  
-✅ Parallax effects  
-✅ 3D card flips on hover  
-✅ Gradient text effects  
-✅ Glass-morphism design  
-✅ Animated counters  
-✅ Contact form validation  
-✅ Fully responsive (mobile-first)  
-✅ Professional color scheme  
-✅ Font Awesome icons  
-✅ SEO optimized  
+`package.json` — runtime dependencies cut from 8 to 4. Removed
+`framer-motion`, `react-icons`, `tailwindcss`, `autoprefixer`, `postcss`;
+none were used. No Tailwind directive existed anywhere in the CSS.
 
 ---
 
-## 🎯 Professional Design Elements
+## Performance
 
-### Color Scheme
-- **Primary Blue**: #003366 (Deep professional blue)
-- **Secondary Blue**: #0066cc (Action buttons)
-- **Accent Cyan**: #00d9ff (Highlights)
-- **White**: #ffffff (Clean background)
-- **Gray**: #f8fafb (Section backgrounds)
+| Change                | Before                          | After                                       |
+| --------------------- | ------------------------------- | ------------------------------------------- |
+| three.js              | 670 kB vendored, parser-blocking | npm package, `dynamic(ssr:false)`, off the shared bundle |
+| Fonts                 | Render-blocking Google CDN      | Self-hosted via `next/font`, no layout shift |
+| Images                | Raw `<img>`, full-size          | `next/image`, AVIF/WebP, lazy, sized        |
+| Rendering             | Static files                    | Prerendered at build, CDN-served            |
+| Page JS               | 3 scripts on every page         | 87.3 kB shared; pages add 194 B – 5.8 kB    |
+| Duplicate CSS         | 4 conflicting rule pairs        | Removed                                     |
 
-### Typography
-- **Font**: Inter (Professional, modern)
-- **Headings**: Bold, large, gradient effects
-- **Body**: Clean, readable, 16-18px
+Build output: **11 static routes, 1 dynamic**. Shared first-load JS
+**87.3 kB**; the heaviest route (home) totals 106 kB.
 
-### Animations
-- **Parallax**: Hero background moves with scroll
-- **Fade-in-up**: Sections appear as you scroll
-- **3D Effects**: Service cards flip on hover
-- **Smooth Transitions**: 0.3-0.6 second duration
-- **Counters**: Stats animate on view
+Runtime guards carried over intact: reduced-motion renders one static frame,
+scenes pause off-screen and when the tab is hidden, DPR is capped at 2, and
+WebGL failure degrades to the CSS backdrop.
 
 ---
 
-## 📝 Quick Customization (5 minutes)
+## SEO
 
-### 1. Update Company Name
-Open `index.html` and search for "NextGen AI" → Replace with your company name
+Added: per-route titles and descriptions with a shared template · canonical
+URLs · OpenGraph and Twitter card metadata with a 1200×630 image ·
+`ProfessionalService` and `WebSite` JSON-LD · generated `sitemap.xml` with
+per-route priority and change frequency · generated `robots.txt` excluding
+`/api/` · keywords · `theme-color` for light and dark · favicon.
 
-### 2. Change Colors
-Search for these color codes and replace:
-- `#003366` → Your primary color
-- `#0066cc` → Your secondary color
-- `#00d9ff` → Your accent color
-
-### 3. Update Contact Info
-Search for:
-- `+1 (555) 123-4567` → Your phone
-- `hello@nextgen-ai.com` → Your email
-- `123 Tech Street, San Francisco, CA 94105` → Your address
-
-### 4. Add Your Services
-Replace the 6 service descriptions with your actual services
-
-### 5. Add Your Team
-Update the 4 team member cards with real names and roles
-
-### 6. Update Portfolio
-Replace the 6 case studies with your actual projects
-
-*See `CUSTOMIZATION.md` for detailed instructions*
+The canonical host reads from `NEXT_PUBLIC_SITE_URL`, falling back to
+`VERCEL_URL`. **Set it once the domain is live.**
 
 ---
 
-## 🌐 Deployment Options
+## Accessibility
 
-### Option 1: Netlify (Easiest)
-1. Go to [netlify.com](https://netlify.com)
-2. Drag & drop `index.html`
-3. Done! Your site is live
+Added: skip-to-content link on every page (off-screen until focused) ·
+semantic landmarks · `aria-expanded` and `aria-controls` on the hamburger
+and dropdowns · `aria-current="page"` on the active nav item · FAQ
+questions as real buttons with labelled panels · `autoComplete` hints on
+form fields · `role="status"` and `role="alert"` live regions for
+submission results · `aria-hidden` on decorative icons and canvases ·
+Escape closes the mobile menu.
 
-### Option 2: Vercel (Recommended)
-1. Push to GitHub
-2. Connect repo to [vercel.com](https://vercel.com)
-3. Auto-deploys every push
-
-### Option 3: GitHub Pages (Free)
-1. Create GitHub repo
-2. Push files to `gh-pages` branch
-3. Enable Pages in settings
-
-### Option 4: Traditional Hosting
-- FTP upload `index.html`
-- Works on any web server
+All motion continues to respect `prefers-reduced-motion`.
 
 ---
 
-## 💡 Key Features Breakdown
+## Contact form — action required
 
-### Hero Section
-- Parallax background animation
-- Gradient text with shimmer effect
-- Two CTA buttons (primary + secondary)
-- Stats counter (animated on scroll)
-- Responsive layout
+The form UI is unchanged and now posts JSON to `/api/contact`, which
+validates the payload (422 on invalid, 200 on success) and calls a single
+`deliver()` function.
 
-### Services
-- 6 customizable service cards
-- Hover 3D flip effect
-- Font Awesome icons
-- Smooth transitions
-- Grid layout (auto-responsive)
+**`deliver()` is deliberately not wired to a provider**, per the brief not to
+hardcode backend logic. Until one is configured the route validates, logs a
+warning, and returns success.
 
-### Portfolio
-- 6 project showcase cards
-- Hover overlay effect
-- Smooth animations
-- Gradient backgrounds
-- Responsive grid
+Two ways to finish it:
 
-### Team
-- 4 team member cards
-- Profile images (avatar circles)
-- Role and bio section
-- Social media links
-- Scale animation on hover
+1. Set `CONTACT_WEBHOOK_URL` — no code change.
+2. Replace the `deliver()` body with a provider call (an example using Resend
+   is in the doc comment).
 
-### Blog
-- 3 sample blog posts
-- Date stamps
-- Feature images
-- "Read More" links
-- Card-based layout
-
-### Contact
-- Contact form with validation
-- 4 contact info cards (phone, email, address, hours)
-- Professional styling
-- Form submission handling
-
-### Footer
-- 4 footer sections
-- Company info
-- Links
-- Social media icons
-- Copyright notice
+This also supersedes the old Formspree form `mjgzdppy`, whose delivery
+address could only be changed from that Formspree account.
 
 ---
 
-## 📱 Responsive Design
+## Deployment
 
-✅ **Desktop** (1920px+) - Full layout with animations  
-✅ **Tablet** (768px-1024px) - Optimized grid layout  
-✅ **Mobile** (320px-767px) - Stacked layout, touch-friendly  
+```bash
+npm install && npm run build && npm start
+```
 
-All sections resize and reflow beautifully on all devices!
-
----
-
-## 🔍 SEO & Accessibility
-
-✅ Meta tags for search engines  
-✅ Semantic HTML5 structure  
-✅ WCAG 2.1 accessibility compliance  
-✅ Alt text for images  
-✅ Proper heading hierarchy  
-✅ Mobile-friendly viewport  
-✅ Fast page load (< 50ms)  
+Vercel: import the repository and deploy. Framework detection fills in every
+setting; there is no `vercel.json` and nothing to override. Full steps and a
+pre-flight checklist are in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 
-## 🛠️ Under the Hood
+## Known items
 
-- **Pure HTML5** - No frameworks needed to start
-- **CSS3** - Modern styling with Grid/Flexbox
-- **Vanilla JavaScript** - Smooth interactions
-- **Font Awesome** - Professional icons (from CDN)
-- **Google Fonts** - Inter typography
-
-**Total Size**: ~42KB (HTML) - Super fast!
-
----
-
-## 📞 Support & Help
-
-### Need to make changes?
-1. See `CUSTOMIZATION.md` for detailed find & replace guide
-2. Use any text editor (VS Code recommended)
-3. Save and refresh browser to see changes
-
-### Want to upgrade to React/Next.js?
-- `package.json` is ready with all dependencies
-- Run `npm install && npm run dev`
-- Files are structured for easy Next.js migration
-
-### Want to add features?
-- Contact forms can email to backend
-- Blog can connect to CMS
-- Team section can pull from database
-- Portfolio can connect to gallery system
+- **Enquiry delivery is not configured** (above). This is the one thing
+  standing between the form and a working inbox.
+- **`--cyan` holds the brand orange** in `home.css` — a name inherited from
+  the 1.x palette. Renaming touches ~40 references; left alone deliberately.
+- **Font Awesome remains a CDN dependency.** Self-hosting it would remove
+  the last external runtime request, at the cost of a larger repository.
+- The homepage renders three service cards and expands to six; the original
+  rendered all six and hid three with `display: none`. Visually identical,
+  less DOM.
 
 ---
 
-## ✅ Quality Assurance
+## Conclusion
 
-Your website has been tested for:
-✅ Mobile responsiveness  
-✅ Animation performance (60 FPS)  
-✅ Browser compatibility  
-✅ Form validation  
-✅ Accessibility standards  
-✅ SEO best practices  
-✅ Page load speed  
-✅ Color contrast (WCAG AA)  
-
----
-
-## 🚀 Next Steps
-
-1. **Right Now**: Open `index.html` in browser and explore
-2. **Today**: Customize with your company information
-3. **Tomorrow**: Deploy to your domain
-4. **This Week**: Share with stakeholders and get feedback
-5. **Later**: Add backend services as needed
-
----
-
-## 📊 Website Statistics
-
-| Metric | Value |
-|--------|-------|
-| Sections | 7 |
-| Pages Ready | 1 (expandable to many) |
-| Animations | 15+ |
-| Services | 6 |
-| Portfolio Items | 6 |
-| Team Members | 4 |
-| Blog Posts | 3 |
-| Contact Methods | 4 |
-| Performance | 95+ Lighthouse |
-| Mobile Score | 100% |
-| SEO Score | 95+ |
-
----
-
-## 🎁 Bonus Features
-
-- Smooth scroll behavior on all links
-- Animated stat counters
-- Form validation
-- Sticky navigation
-- Custom scrollbar
-- Glass-morphism effects
-- Gradient backgrounds
-- Icon library (Font Awesome)
-- Professional spacing
-- Modern typography
-
----
-
-## 💾 Files You Received
-
-**Documentation** (3 files):
-- `README.md` - Technical docs
-- `QUICKSTART.md` - Quick start guide
-- `WEBSITE_GUIDE.md` - Feature overview
-- `CUSTOMIZATION.md` - Customization guide
-
-**Code** (1 file):
-- `index.html` - Complete website
-
-**Config** (6 files):
-- `package.json` - Dependencies
-- `tsconfig.json` - TypeScript config
-- `tailwind.config.js` - Tailwind config
-- `postcss.config.js` - PostCSS config
-- `next.config.js` - Next.js config
-- `.gitignore` - Git ignore rules
-
-**Helpers** (1 file):
-- `setup.sh` - Setup script
-
----
-
-## 🎉 Summary
-
-You now have a **professional, modern, fully-animated website** for NextGen AI Solution that:
-- Works immediately (no build needed)
-- Looks amazing on all devices
-- Impresses clients with premium animations
-- Is SEO optimized
-- Is fully customizable
-- Is ready to deploy
-- Is production-ready
-
-**Open `index.html` in your browser right now and see your new website! 🚀**
-
----
-
-## 📧 Questions?
-
-Refer to:
-- `QUICKSTART.md` for quick setup
-- `CUSTOMIZATION.md` for how to change things
-- `WEBSITE_GUIDE.md` for feature details
-- `README.md` for technical info
-
----
-
-**Your professional website is ready. Let's make NextGen AI Solution shine! 🌟**
-
-*- Powered by Copilot CLI | Created with ❤️ for your startup*
+The site is a production-ready Next.js 14 application. It looks the same as
+before, ships materially less JavaScript, is statically prerendered,
+properly indexed, keyboard accessible, and deployable to Vercel without
+configuration. Build, lint and type checks all pass, and every page was
+verified against the original rather than assumed correct.

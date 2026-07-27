@@ -1,345 +1,231 @@
-# Customization Cheat Sheet - Find & Replace Guide
+# Customization
 
-## 🎨 How to Customize Your Website
-
-Open `index.html` in any text editor and use Find & Replace (Ctrl+H) to make these changes:
+Where to change things, and what each change affects.
 
 ---
 
-## 1. Company Branding
+## Contact details
 
-### Change Company Name
-**Find:**
-```
-NextGen AI
-```
-**Replace with:**
-```
-Your Company Name
-```
-*Appears in: Header, Footer, Hero, About sections*
+**File:** `lib/site.ts` → `contact`
 
-### Change Company Description
-**Find:**
-```
-Transforming businesses with cutting-edge AI solutions
-```
-**Replace with:**
-```
-Your company tagline here
+```ts
+export const contact = {
+  phoneDisplay: '+91 91453 10264',
+  phoneHref: 'tel:+919145310264',
+  whatsappNumber: '919145310264',
+  whatsappHref: 'https://wa.me/919145310264',
+  email: 'info@apexintelligence.in',
+  emailHref: 'mailto:info@apexintelligence.in',
+  addressLines: ['G-square Jatra Hotel', 'Nashik, Maharashtra'],
+  …
+};
 ```
 
----
+One edit updates the homepage info strip, both footers, the floating
+WhatsApp button and the `ProfessionalService` structured data.
 
-## 2. Colors
-
-### Change Primary Blue
-**Find:**
-```
-#003366
-```
-**Replace with:**
-```
-#your-color-code
-```
-*Used for: Main text, headings, primary elements*
-
-### Change Secondary Blue  
-**Find:**
-```
-#0066cc
-```
-**Replace with:**
-```
-#your-color-code
-```
-*Used for: Buttons, links, secondary elements*
-
-### Change Accent Cyan
-**Find:**
-```
-#00d9ff
-```
-**Replace with:**
-```
-#your-color-code
-```
-*Used for: Highlights, accents, hover states*
+The `/contact` page cards are the exception — they carry the numbers in
+their own markup so the layout can differ per card. Search
+`app/(site)/contact/page.tsx` if you change the number.
 
 ---
 
-## 3. Contact Information
+## Navigation
 
-### Phone Number
-**Find:**
-```
-+1 (555) 123-4567
-```
-**Replace with:**
-```
-Your phone number
-```
+**File:** `lib/site.ts` → `navigation`
 
-### Email
-**Find:**
-```
-hello@nextgen-ai.com
-```
-**Replace with:**
-```
-Your email address
+```ts
+{
+  label: 'Services',
+  href: '/services',
+  items: [
+    { label: 'Web Development', href: '/services#web', icon: 'fas fa-globe' },
+    { divider: true },
+    …
+  ],
+}
 ```
 
-### Address
-**Find:**
-```
-123 Tech Street, San Francisco, CA 94105
-```
-**Replace with:**
-```
-Your office address
-```
-
-### Business Hours
-**Find:**
-```
-Monday - Friday: 9:00 AM - 6:00 PM
-```
-**Replace with:**
-```
-Your business hours
-```
+Drives both headers. `{ divider: true }` renders a separator. Icons are
+Font Awesome 6 class names.
 
 ---
 
-## 4. Hero Section
+## Page copy
 
-### Main Heading
-**Find:**
-```
-Transform Your Business with Cutting-Edge AI Solutions
-```
-**Replace with:**
-```
-Your main headline
-```
+Each route's text lives in its own file:
 
-### Subheading
-**Find:**
-```
-We deliver innovative AI and machine learning solutions that drive efficiency, innovation, and growth for your organization.
-```
-**Replace with:**
-```
-Your company tagline/description
-```
+| Page      | File                             |
+| --------- | -------------------------------- |
+| Home      | `app/(home)/page.tsx`            |
+| About     | `app/(site)/about/page.tsx`      |
+| Services  | `app/(site)/services/page.tsx`   |
+| Work      | `app/(site)/products/page.tsx`   |
+| Process   | `app/(site)/process/page.tsx`    |
+| Insights  | `app/(site)/insights/page.tsx`   |
+| Contact   | `app/(site)/contact/page.tsx`    |
 
-### Stats (Left-aligned content under hero buttons)
-**Find line numbers 550-570:**
-```
-500+ Projects Completed
-98% Client Satisfaction
-50+ Team Members
-```
-**Replace with your stats**
+Two blocks are data-driven instead:
+
+- **Homepage service cards** — `components/home/ServicesGrid.tsx`, the
+  `MODULES` array. Set `extra: true` to hide a card behind "View all modules".
+- **FAQ** — `lib/content.ts`.
 
 ---
 
-## 5. Services Section
+## Colours
 
-### Service 1
-**Find:**
-```
-<div class="service-icon"><i class="fas fa-brain"></i></div>
-                <h3>AI Consulting</h3>
-                <p>Strategic guidance to integrate AI into your business processes...</p>
-```
-**Replace with your service info**
+### Shared palette
 
-*Repeat for Services 2-6 (look for next service-card divs)*
+**File:** `styles/base.css`
 
----
-
-## 6. Portfolio / Case Studies
-
-### Case Study 1
-**Find:**
-```
-<div class="portfolio-content">
-                    <h3>Predictive Analytics Platform</h3>
-                    <p>Developed ML model for customer behavior prediction</p>
-                </div>
-```
-**Replace with your project details**
-
-*Repeat for Projects 2-6 (look for next portfolio-item divs)*
-
----
-
-## 7. Team Members
-
-### Team Member 1
-**Find:**
-```
-<h3>Dr. Alex Chen</h3>
-                <div class="team-role">CEO & Founder</div>
-                <p class="team-bio">Ph.D. in Machine Learning with 15+ years in AI development</p>
-```
-**Replace with your team member details**
-
-*Repeat for Team Members 2-4*
-
----
-
-## 8. Blog Posts
-
-### Blog Post 1
-**Find:**
-```
-<div class="blog-date">May 2024</div>
-                    <h3>The Future of AI in Business</h3>
-                    <p>Exploring how artificial intelligence is reshaping industries...</p>
-```
-**Replace with your blog info**
-
-*Repeat for Blog Posts 2-3*
-
----
-
-## 9. Social Media Links
-
-### Update Social Links in Footer
-**Find:**
-```
-<a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-```
-**Replace href="#" with:** `https://facebook.com/yourpage`
-
-*Repeat for Twitter, LinkedIn, Instagram*
-
----
-
-## 10. Quick Color Change (All At Once)
-
-To change the entire color scheme:
-
-1. **Find** `#003366` → **Replace all** with your primary color
-2. **Find** `#0066cc` → **Replace all** with your secondary color  
-3. **Find** `#00d9ff` → **Replace all** with your accent color
-
----
-
-## 11. Logo/Favicon
-
-### Replace Logo Text with Image
-**Find (around line 180):**
-```html
-<div class="logo">
-    <i class="fas fa-brain"></i> NextGen AI
-</div>
-```
-
-**Replace with:**
-```html
-<img src="your-logo.png" alt="Your Company" class="logo" style="max-width: 200px;">
-```
-
----
-
-## 12. Open Graph / SEO
-
-### Update Meta Tags
-**Find (in <head> section):**
-```html
-<title>NextGen AI Solution - Professional AI Services</title>
-```
-
-**Replace with:**
-```html
-<title>Your Company - Your Tagline</title>
-```
-
----
-
-## 📋 Step-by-Step Customization Guide
-
-1. **Open** `index.html` in any text editor (VS Code recommended)
-2. **Use Ctrl+H** to open Find & Replace
-3. **Copy find phrases** from above
-4. **Paste replace content** with your info
-5. **Click Replace All** or **Replace** individually
-6. **Save** the file
-7. **Open in browser** to see changes
-
----
-
-## 🎨 Styling Customization
-
-### Change Font (currently: Inter)
-**Find:**
 ```css
-font-family: 'Inter', sans-serif;
-```
-**Replace with:**
-```css
-font-family: 'Your Font', sans-serif;
-```
-*Then add your font from Google Fonts in the <head>*
+:root {
+    --primary-color: #E4570F;
+    --accent-color:  #FF7A3D;
+    --bg-primary:    #ffffff;
+    --text-primary:  #171310;
+    …
+}
 
-### Change Button Styles
-**Find:**
-```css
-.primary-btn {
-    background: linear-gradient(135deg, #0066cc, #0052a3);
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 8px;
+body.dark-mode {
+    --primary-color: #FF7A3D;
+    --bg-primary:    #15120F;
+    --text-primary:  #ffffff;
+    …
+}
 ```
-**Modify** the padding, border-radius, or gradient colors
 
-### Change Animation Speed
-**Find:**
-```css
-animation: fadeInUp 0.6s ease-out;
+Change both blocks — light and dark are defined separately.
+
+### Homepage palette
+
+**File:** `styles/home.css`
+
+The homepage has its own "blueprint" tokens (`--cyan`, `--amber`,
+`--navy-900`, `--paper`) in a `:root` block, plus light/dark sheets on
+`body.home` and `body.home.dark-mode`.
+
+> `--cyan` is a historical name — it holds the brand orange `#FF7A3D`.
+> Renaming it means updating ~40 references in `home.css`.
+
+### 3D scene colours
+
+**File:** `components/three/scenes.ts` → `PALETTE`
+
+```ts
+export const PALETTE = {
+  light: { core: 0xe4570f, rim: 0xffa45c, /* … */ additive: false },
+  dark:  { core: 0xff7a3d, rim: 0xffd8a8, /* … */ additive: true  },
+};
 ```
-**Change 0.6s** to your desired speed (e.g., 0.3s for faster, 1s for slower)
+
+Hex numbers, not strings. `additive` controls blend mode — additive glow
+reads well on dark backgrounds and washes out on light ones.
 
 ---
 
-## ✅ Verification Checklist
+## Typography
 
-After customization:
-- [ ] Company name updated everywhere
-- [ ] Colors match your brand
-- [ ] Contact info is correct
-- [ ] Services/Features updated
-- [ ] Team members added
-- [ ] Portfolio/Projects updated
-- [ ] Blog posts customized
-- [ ] Logo/Favicon added
-- [ ] Social links updated
-- [ ] Website opens in browser without errors
+**File:** `app/layout.tsx`
 
----
+Three families are self-hosted through `next/font/google` and exposed as CSS
+variables:
 
-## 💾 Save Changes
+| Family            | Variable         | Used for                     |
+| ----------------- | ---------------- | ---------------------------- |
+| Inter             | `--font-inter`   | body text                    |
+| Plus Jakarta Sans | `--font-jakarta` | headings, logo               |
+| IBM Plex Mono     | `--font-ibm`     | eyebrows, labels, info strip |
 
-After each edit:
-1. **Save file** (Ctrl+S)
-2. **Refresh browser** (F5 or Cmd+Shift+R)
-3. **Verify changes** appear correctly
+To swap a family, change the import and the `variable` name stays the same —
+the stylesheets reference the variable, not the family name.
 
 ---
 
-## 🚀 Pro Tips
+## The 3D scenes
 
-- **Keep backups**: Save original before major changes
-- **Test on mobile**: Use browser DevTools (F12)
-- **Validate HTML**: Use W3C Validator
-- **Spell check**: Especially in content sections
-- **Test links**: Make sure all links work
-- **Preview colors**: Use color pickers for exact shades
+**File:** `components/three/scenes.ts`
+
+### Tuning the homepage scene
+
+Inside `buildCore`:
+
+| What                      | Where                                     |
+| ------------------------- | ----------------------------------------- |
+| Lattice size              | `new THREE.IcosahedronGeometry(1.12, 1)`  |
+| Composition offset        | `BASE_Y`, `BASE_Z`                        |
+| Orbit rings               | the `ringSpecs` array                     |
+| Node size                 | `sprite.scale.setScalar(0.19)`            |
+| Grid horizon              | `new THREE.GridHelper(40, 40, …)`, `grid.position.y` |
+| Particle count / spread   | `particleField(700, 8.5, palette)`        |
+
+### Tuning the inner-page scene
+
+Inside `buildLattice`: the loop over 14 shapes. Positions deliberately avoid
+the centre column (`side * (3.4 + Math.random() * 4.4)`) so headline copy
+stays readable — keep that if you change the spread.
+
+### Camera and motion
+
+**File:** `components/three/Scene3D.tsx` — field of view, base position,
+pointer-parallax damping (`0.045`), and the DPR cap.
+
+### Adding a scene
+
+1. Write a builder in `scenes.ts` returning `{ themed, update, dispose }`.
+2. Register it in `BUILDERS`.
+3. Add its name to `SceneName` in `types/index.ts`.
+4. Mount it: `<section data-apex-3d="yourScene"><LazyScene scene="yourScene" /></section>`
 
 ---
 
-**That's it! Your website is fully customizable. Just find and replace! 🎉**
+## 3D UI effects
+
+**File:** `styles/3d.css`
+
+Applied by adding attributes to markup — no JavaScript per element:
+
+| Attribute / class      | Effect                                      |
+| ---------------------- | ------------------------------------------- |
+| `data-tilt`            | pointer-tracked 3D tilt                     |
+| `data-tilt-max="5"`    | max rotation in degrees (default 7)         |
+| `data-tilt-lift="14"`  | translateZ in px while hovered (default 18) |
+| `.reveal-3d`           | perspective reveal on scroll                |
+| `.d1` … `.d6`          | stagger delay for reveals                   |
+| `.depth-scene`         | shared perspective root for a grid          |
+| `.lift-1/2/3`          | push a child forward off the card face      |
+| `data-parallax="0.15"` | scroll drift                                |
+
+All of them are disabled under `prefers-reduced-motion` and on coarse
+pointers.
+
+---
+
+## SEO
+
+- **Defaults** (title template, OpenGraph, Twitter, robots, keywords):
+  `app/layout.tsx`
+- **Per page**: the `metadata` export in each `page.tsx`
+- **Sitemap**: `lib/site.ts` → `routes`, consumed by `app/sitemap.ts`
+- **Structured data**: `ProfessionalService` in `app/layout.tsx`,
+  `WebSite` in `app/(home)/page.tsx`
+- **Canonical host**: set `NEXT_PUBLIC_SITE_URL`
+
+---
+
+## Images
+
+Remote images use `next/image` and are optimised automatically. New remote
+hosts must be allowed in `next.config.mjs`:
+
+```js
+images: {
+  remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
+}
+```
+
+Give every `<Image>` a `width`/`height` matching the source aspect ratio.
+`base.css` sets `img { height: auto }` so the rendered height follows the
+container width — without it the attribute height wins and the image
+stretches.
