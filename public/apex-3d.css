@@ -1,0 +1,258 @@
+/* ════════════════════════════════════════════════════════════════ */
+/* APEX 3D LAYER — depth, perspective & WebGL scene presentation     */
+/* Loaded after shared.css on every page.                            */
+/* ════════════════════════════════════════════════════════════════ */
+
+/* ── WebGL scene host ───────────────────────────────────────────── */
+/* Any element with [data-apex-3d] becomes a scene mount. The canvas */
+/* is injected as an absolutely positioned child behind content.     */
+
+[data-apex-3d] {
+    position: relative;
+    isolation: isolate;
+}
+
+.apex-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.apex-canvas.ready {
+    opacity: 1;
+}
+
+/* Content inside a scene host must sit above the canvas */
+[data-apex-3d] > *:not(.apex-canvas) {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Perspective scene roots ────────────────────────────────────── */
+/* Wrap any grid in .depth-scene to give its children real 3D space. */
+
+.depth-scene {
+    perspective: 1400px;
+    perspective-origin: 50% 40%;
+    transform-style: preserve-3d;
+}
+
+/* ── Tilt cards ─────────────────────────────────────────────────── */
+/* [data-tilt] elements track the pointer and rotate in 3D.          */
+/* The transform is written by apex-ui.js via CSS custom properties  */
+/* so hover/reveal transitions never fight the pointer maths.        */
+
+[data-tilt] {
+    position: relative; /* anchors the glare overlay to the card itself */
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    --tilt-z: 0px;
+    --tilt-glare: 0;
+    --tilt-gx: 50%;
+    --tilt-gy: 50%;
+    transform-style: preserve-3d;
+    transform:
+        perspective(1000px)
+        rotateX(var(--tilt-x))
+        rotateY(var(--tilt-y))
+        translateZ(var(--tilt-z));
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.35s ease;
+    will-change: transform;
+}
+
+[data-tilt].tilting {
+    /* while the pointer is down/over, follow it with almost no lag */
+    transition: transform 0.12s linear,
+                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.35s ease;
+}
+
+/* Specular sweep that follows the pointer across a tilted card */
+[data-tilt]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: var(--tilt-glare);
+    transition: opacity 0.45s ease;
+    background: radial-gradient(
+        circle at var(--tilt-gx) var(--tilt-gy),
+        rgba(255, 255, 255, 0.55) 0%,
+        rgba(255, 255, 255, 0.14) 28%,
+        transparent 62%
+    );
+    mix-blend-mode: soft-light;
+    z-index: 3;
+}
+
+body.dark-mode [data-tilt]::after {
+    background: radial-gradient(
+        circle at var(--tilt-gx) var(--tilt-gy),
+        rgba(255, 168, 110, 0.30) 0%,
+        rgba(255, 122, 61, 0.10) 30%,
+        transparent 64%
+    );
+    mix-blend-mode: screen;
+}
+
+/* Children can be pushed forward off the card face */
+[data-tilt] .lift-1 { transform: translateZ(22px); }
+[data-tilt] .lift-2 { transform: translateZ(38px); }
+[data-tilt] .lift-3 { transform: translateZ(56px); }
+
+/* ── 3D scroll reveal ───────────────────────────────────────────── */
+
+.reveal-3d {
+    opacity: 0;
+    transform: perspective(1200px) rotateX(9deg) translate3d(0, 42px, -70px);
+    transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-3d.visible {
+    opacity: 1;
+    transform: perspective(1200px) rotateX(0deg) translate3d(0, 0, 0);
+}
+
+.reveal-3d.d1 { transition-delay: 0.08s; }
+.reveal-3d.d2 { transition-delay: 0.16s; }
+.reveal-3d.d3 { transition-delay: 0.24s; }
+.reveal-3d.d4 { transition-delay: 0.32s; }
+.reveal-3d.d5 { transition-delay: 0.40s; }
+.reveal-3d.d6 { transition-delay: 0.48s; }
+
+/* ── Scroll parallax ────────────────────────────────────────────── */
+/* [data-parallax="0.15"] — positive drifts slower than the page.    */
+
+[data-parallax] {
+    will-change: transform;
+}
+
+/* ── Depth shadow scale ─────────────────────────────────────────── */
+
+.depth-1 { box-shadow: 0 2px 6px rgba(23, 19, 16, 0.05), 0 8px 20px rgba(23, 19, 16, 0.05); }
+.depth-2 { box-shadow: 0 4px 10px rgba(23, 19, 16, 0.06), 0 18px 40px rgba(23, 19, 16, 0.08); }
+.depth-3 { box-shadow: 0 8px 18px rgba(23, 19, 16, 0.07), 0 34px 70px rgba(23, 19, 16, 0.11); }
+
+body.dark-mode .depth-1 { box-shadow: 0 2px 6px rgba(0, 0, 0, 0.30), 0 8px 20px rgba(0, 0, 0, 0.28); }
+body.dark-mode .depth-2 { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.34), 0 18px 40px rgba(0, 0, 0, 0.36); }
+body.dark-mode .depth-3 { box-shadow: 0 8px 18px rgba(0, 0, 0, 0.38), 0 34px 70px rgba(0, 0, 0, 0.46); }
+
+/* ── Card lift on hover, harmonised with tilt ───────────────────── */
+
+.depth-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(23, 19, 16, 0.05), 0 18px 40px rgba(23, 19, 16, 0.07);
+}
+
+body.dark-mode .depth-card {
+    background: var(--bg-secondary);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.32), 0 18px 40px rgba(0, 0, 0, 0.34);
+}
+
+.depth-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 22px rgba(228, 87, 15, 0.10), 0 38px 76px rgba(228, 87, 15, 0.14);
+}
+
+body.dark-mode .depth-card:hover {
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.42), 0 38px 76px rgba(255, 122, 61, 0.16);
+}
+
+/* Edge highlight — reads as a bevelled top face under raking light */
+.depth-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 2;
+}
+
+body.dark-mode .depth-card::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 168, 110, 0.45), transparent);
+}
+
+/* ── Floating accent objects (pure CSS, no WebGL cost) ──────────── */
+
+.float-slow { animation: apexFloat 9s ease-in-out infinite; }
+.float-mid  { animation: apexFloat 6.5s ease-in-out infinite; }
+.float-fast { animation: apexFloat 4.5s ease-in-out infinite; }
+
+@keyframes apexFloat {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50%      { transform: translate3d(0, -14px, 0) rotate(2.5deg); }
+}
+
+/* ── Scene gradient scrim, keeps type legible over WebGL ────────── */
+
+.scene-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse 78% 62% at 50% 48%,
+        rgba(247, 244, 238, 0.05) 0%,
+        rgba(247, 244, 238, 0.58) 58%,
+        rgba(247, 244, 238, 0.90) 100%
+    );
+}
+
+body.dark-mode .scene-scrim {
+    background: radial-gradient(
+        ellipse 78% 62% at 50% 48%,
+        rgba(21, 18, 15, 0.10) 0%,
+        rgba(21, 18, 15, 0.62) 58%,
+        rgba(21, 18, 15, 0.90) 100%
+    );
+}
+
+/* ── Motion & capability guards ─────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    [data-tilt],
+    [data-tilt].tilting {
+        transform: none !important;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    [data-tilt]::after { display: none; }
+
+    .reveal-3d {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .float-slow, .float-mid, .float-fast { animation: none; }
+    .apex-canvas { transition: none; }
+}
+
+/* Coarse pointers get the depth styling but not pointer tracking */
+@media (hover: none) {
+    [data-tilt] { transform: none; }
+    [data-tilt]::after { display: none; }
+}
+
+@media (max-width: 760px) {
+    .depth-scene { perspective: none; }
+    .reveal-3d { transform: translate3d(0, 30px, 0); }
+    .reveal-3d.visible { transform: none; }
+}

@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#15120F">
     <title>404 — Page Not Found | Apex Intelligence</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="apex-3d.css">
     <link rel="icon" type="image/png" href="https://fav.farm/🚀">
     <style>
         .error-page {
@@ -71,6 +73,18 @@
     </style>
 </head>
 <body>
+<script>
+/* Theme applied before first paint so the page never flashes. */
+(function(){try{
+  var s=localStorage.getItem('apexTheme');
+  if(!s){
+    if(localStorage.getItem('darkMode')==='enabled'||localStorage.getItem('apexPrintMode')==='blueprint') s='dark';
+    else if(localStorage.getItem('darkMode')==='disabled'||localStorage.getItem('apexPrintMode')==='whiteprint') s='light';
+  }
+  if(!s&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches) s='dark';
+  if(s==='dark') document.body.classList.add('dark-mode');
+}catch(e){}})();
+</script>
     <a id="whatsapp-btn" href="https://wa.me/917721809744" target="_blank" rel="noopener" title="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
     <button id="scrollTopBtn" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
@@ -122,7 +136,7 @@
         </nav>
     </header>
 
-    <div class="error-page">
+    <div class="error-page" data-apex-3d="lattice">
         <div>
             <div class="error-code">404</div>
             <h2>Page not found</h2>
@@ -144,6 +158,8 @@
             </div>
         </div>
     </footer>
+    <script src="apex-ui.js" defer></script>
+    <script type="module" src="apex-3d.js"></script>
     <script src="shared.js"></script>
 </body>
 </html>

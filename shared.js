@@ -14,31 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ── DARK MODE TOGGLE ──
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const savedMode = localStorage.getItem('darkMode');
-    
-    // Apply saved dark mode preference
-    if (savedMode === 'enabled') {
-        document.body.classList.add('dark-mode');
-        if (darkModeToggle) {
-            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-    }
-    
-    // Toggle dark mode on button click
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('darkMode', 'enabled');
-                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                localStorage.setItem('darkMode', 'disabled');
-                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        });
-    }
+    // ── DARK MODE ──
+    // Owned by apex-ui.js so the homepage and inner pages share one
+    // theme class, one storage key and one broadcast event.
 
     // ── HAMBURGER MENU ──
     const hamburger = document.getElementById('hamburger');
@@ -106,27 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ── SCROLL REVEAL ANIMATION ──
-    const revealElements = document.querySelectorAll('.reveal');
-    
-    const revealScroll = () => {
-        revealElements.forEach(element => {
-            const windowHeight = window.innerHeight;
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-            
-            if (elementTop < windowHeight - elementVisible) {
-                element.classList.add('visible');
-            }
-        });
-    };
-    
-    // Initial check
-    revealScroll();
-    
-    // Check on scroll
-    window.addEventListener('scroll', revealScroll);
-    window.addEventListener('resize', revealScroll);
+    // ── SCROLL REVEAL ──
+    // Owned by apex-ui.js (IntersectionObserver, covers .reveal,
+    // .reveal-3d and [data-count]).
 
     // ── SMOOTH SCROLL FOR ANCHOR LINKS ──
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
