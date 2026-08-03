@@ -7,6 +7,7 @@ import { siteConfig, contact } from '@/lib/site';
 
 import '@/styles/base.css';
 import '@/styles/3d.css';
+import '@/styles/responsive.css';
 
 /**
  * Fonts are self-hosted by next/font — no render-blocking request to

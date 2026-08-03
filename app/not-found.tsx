@@ -8,6 +8,7 @@ import LazyScene from '@/components/three/LazyScene';
 
 import '@/styles/globals.css';
 import '@/styles/pages.css';
+import '@/styles/detail.css';
 
 export const metadata: Metadata = {
   title: 'Page Not Found',

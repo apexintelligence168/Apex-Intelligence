@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Image from 'next/image';
 
 import LazyScene from '@/components/three/LazyScene';
@@ -27,6 +28,12 @@ export default function ProductsPage() {
                   <p>Real projects for businesses in Nashik and across Maharashtra.</p>
               </div>
           </section>
+
+      <nav className="detail-breadcrumb" aria-label="Section">
+        <Link href="/products/case-studies">Case Studies</Link>
+        <span aria-hidden="true">/</span>
+        <Link href="/products/tech-stack">Tech Stack</Link>
+      </nav>
 
           <section id="portfolio" className="section">
               <div className="section-header reveal">

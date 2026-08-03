@@ -25,7 +25,7 @@ const MODULES: ServiceModule[] = [
     icon: 'fas fa-globe',
     title: 'Web Development',
     body: 'Online stores, admin panels, order tracking, and custom portals. We handle design, development, and launch.',
-    href: '/services#web',
+    href: '/services/web-development',
   },
   {
     id: 'erp',
@@ -33,7 +33,7 @@ const MODULES: ServiceModule[] = [
     icon: 'fas fa-layer-group',
     title: 'ERP Systems',
     body: 'Custom ERP that connects with Tally, POS, and your existing tools. Inventory, HR, payroll, and finance in one place.',
-    href: '/services#erp',
+    href: '/services/erp-systems',
   },
   {
     id: 'ml',
@@ -41,7 +41,7 @@ const MODULES: ServiceModule[] = [
     icon: 'fas fa-brain',
     title: 'Machine Learning',
     body: 'Predictive models, image recognition, NLP, and recommendation systems. We only add AI where it saves you actual time.',
-    href: '/services#ml',
+    href: '/services/machine-learning',
   },
   {
     id: 'analytics',
@@ -49,7 +49,7 @@ const MODULES: ServiceModule[] = [
     icon: 'fas fa-chart-line',
     title: 'Data Analytics & BI',
     body: "Power BI and Tableau dashboards, data pipelines, and live reports so you can see what's happening in your business.",
-    href: '/services#analytics',
+    href: '/services/data-analytics',
     extra: true,
   },
   {
@@ -58,7 +58,7 @@ const MODULES: ServiceModule[] = [
     icon: 'fas fa-cloud',
     title: 'Cloud & DevOps',
     body: "AWS, Azure, and GCP setup with Docker, Kubernetes, and CI/CD. We handle the infrastructure so you don't have to.",
-    href: '/services#cloud',
+    href: '/services/cloud-devops',
     extra: true,
   },
   {
@@ -67,7 +67,7 @@ const MODULES: ServiceModule[] = [
     icon: 'fas fa-tools',
     title: 'Maintenance & AMC',
     body: 'Bug fixes, updates, server monitoring, and on-site visits when needed. 98% of our clients renew their AMC every year.',
-    href: '/services#maintenance',
+    href: '/services/maintenance-amc',
     extra: true,
   },
 ];

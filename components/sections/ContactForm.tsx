@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 import type { ContactPayload, ContactStatus } from '@/types';
 
@@ -16,18 +16,32 @@ export default function ContactForm() {
   const [status, setStatus] = useState<ContactStatus>('idle');
   const [error, setError] = useState<string | null>(null);
 
+  /** When the form was rendered — used to spot instant bot submissions. */
+  const mountedAt = useRef<number>(Date.now());
+
+  useEffect(() => {
+    mountedAt.current = Date.now();
+  }, []);
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    // Keep a reference: React clears currentTarget once we await.
+    const form = e.currentTarget;
+
     setStatus('submitting');
     setError(null);
 
-    const data = new FormData(e.currentTarget);
-    const payload: ContactPayload = {
+    const data = new FormData(form);
+    const payload: ContactPayload & { company: string; elapsed: number } = {
       name: String(data.get('name') ?? ''),
       email: String(data.get('email') ?? ''),
       phone: String(data.get('phone') ?? ''),
       subject: String(data.get('subject') ?? ''),
       message: String(data.get('message') ?? ''),
+      // Honeypot — a real person never sees or fills this in
+      company: String(data.get('company') ?? ''),
+      elapsed: Date.now() - mountedAt.current,
     };
 
     try {
@@ -44,7 +58,7 @@ export default function ContactForm() {
       }
 
       setStatus('success');
-      e.currentTarget.reset();
+      form.reset();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
       setStatus('error');
@@ -55,6 +69,20 @@ export default function ContactForm() {
 
   return (
     <form className="contact-form" onSubmit={handleSubmit} noValidate={false}>
+      {/* Honeypot. Hidden from sight and from screen readers, and skipped
+          in the tab order — only an automated filler ever populates it. */}
+      <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px' }}>
+        <label htmlFor="company">Company (leave this empty)</label>
+        <input
+          type="text"
+          id="company"
+          name="company"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
+        />
+      </div>
+
       <div className="form-group">
         <label htmlFor="name">Name</label>
         <input

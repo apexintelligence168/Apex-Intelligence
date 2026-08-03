@@ -1,0 +1,728 @@
+/* ==========================================================================
+   APEX INTELLIGENCE — RESPONSIVE LAYER
+   Device adaptations for phone, tablet, large desktop and TV.
+
+   Loaded last by app/layout.tsx. Selectors are prefixed with `html`
+   deliberately: Next emits layout CSS before page CSS, so globals.css
+   (the (site) layout) and home.css (the / page) both load *after* this
+   file. The extra element bumps specificity just enough to win without
+   resorting to !important.
+
+   Every rule lives inside a media query that excludes 1024–1599px, so
+   the laptop/desktop rendering verified against the original design is
+   untouched. Breakpoints:
+
+     ≤ 480px    small phone
+     ≤ 767px    phone
+     ≤ 1024px   tablet — the hamburger nav takes over here, not at 768px
+     ≥ 1600px   large desktop
+     ≥ 2000px   TV / 4K
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. TABLET AND BELOW (≤ 1024px)
+   The desktop nav does not fit a tablet. At 768px the logo wrapped onto
+   two lines, "// SYSTEMS STUDIO" wrapped, and the CTA broke across two
+   lines. The hamburger now takes over for the whole range.
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+
+    /* ── inner-page header (globals.css) ── */
+
+    html body:not(.home) nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem 1.5rem 1.5rem;
+        gap: 0;
+        border-top: 1px solid var(--border-light);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        z-index: 999;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    html body.dark-mode:not(.home) nav ul {
+        background: rgba(21, 18, 15, 0.98);
+    }
+
+    html body:not(.home) nav ul.active {
+        display: flex;
+    }
+
+    html body:not(.home) .hamburger {
+        display: flex;
+    }
+
+    /* ── homepage header (home.css) ── */
+
+    html body.home #navMenu {
+        position: fixed;
+        top: 0;
+        left: auto;
+        right: -100%;
+        height: 100vh;
+        height: 100dvh;
+        width: 82%;
+        max-width: 340px;
+        background: var(--bg-raised);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 6rem 1.75rem 2rem;
+        gap: 1.25rem;
+        transition: right 0.35s ease;
+        overflow-y: auto;
+        box-shadow: -20px 0 60px rgba(23, 19, 16, 0.18);
+    }
+
+    html body.home.dark-mode #navMenu {
+        background: var(--navy-950);
+    }
+
+    html body.home #navMenu.active {
+        right: 0;
+    }
+
+    html body.home .hamburger {
+        display: flex;
+    }
+
+    html body.home .dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        padding-left: 1rem;
+        display: none;
+        margin-top: 0.5rem;
+    }
+
+    html body.home .nav-item:hover .dropdown {
+        display: none;
+    }
+
+    html body.home .nav-item.open .dropdown {
+        display: flex;
+        flex-direction: column;
+    }
+
+    html body.home .header-actions .cta-button {
+        display: none;
+    }
+
+    /* ── the logo must never wrap ── */
+
+    html body .logo,
+    html body.home .logo {
+        white-space: nowrap;
+        flex-shrink: 0;
+        font-size: 1.15rem;
+    }
+
+    html body.home .logo .logo-tag {
+        white-space: nowrap;
+    }
+
+    /* ── a 24×16 hamburger is not a tap target ── */
+
+    html body .hamburger,
+    html body.home .hamburger {
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+    html body .cta-button {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* Nav sits between logo and actions; keep the row from collapsing */
+    html body nav {
+        gap: 0.75rem;
+        flex-wrap: nowrap;
+    }
+
+    /* ── content width ── */
+
+    html body .section-frame,
+    html body.home .section-frame {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+
+/* ==========================================================================
+   2. PHONE (≤ 767px)
+   The hero was 1324px tall on a 390px screen — roughly 1.6 viewports of
+   hero before any content. Type, spacing and the min-height all come
+   down so the fold does useful work.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+
+    /* ── homepage hero ── */
+
+    html body.home .hero {
+        min-height: auto;
+        padding: 8.5rem 1.25rem 3.5rem;
+    }
+
+    html body.home .hero h1 {
+        font-size: clamp(2rem, 8.5vw, 2.75rem);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 1.25rem;
+    }
+
+    html body.home .hero p.lead {
+        font-size: 1rem;
+        line-height: 1.65;
+        margin-bottom: 2rem;
+        max-width: 34ch;
+    }
+
+    html body.home .hero-badge {
+        font-size: 0.6rem;
+        padding: 0.35rem 0.85rem;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.06em;
+    }
+
+    /* Stack the two calls to action at a single width — they read as a
+       pair rather than two mismatched pills. */
+    html body.home .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 2.5rem;
+        width: 100%;
+    }
+
+    html body.home .hero-buttons .primary-btn,
+    html body.home .hero-buttons .secondary-btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+        padding: 0.9rem 1.5rem;
+    }
+
+    html body.home .hero-services {
+        gap: 0.5rem;
+    }
+
+    html body.home .hero-svc-pill {
+        font-size: 0.75rem;
+        padding: 0.45rem 0.8rem;
+    }
+
+    html body.home .hero-stats-bar {
+        margin-top: 2.5rem;
+    }
+
+    html body.home .hero-stats-bar-item {
+        padding: 1.1rem 0.5rem;
+    }
+
+    html body.home .hero-stats-bar-num {
+        font-size: 1.6rem;
+    }
+
+    html body.home .hero-stats-bar-lbl {
+        font-size: 0.58rem;
+        letter-spacing: 0.05em;
+    }
+
+    /* ── homepage sections ── */
+
+    html body.home .section-frame {
+        padding: 3.5rem 1.25rem;
+    }
+
+    html body.home .section-title {
+        font-size: 1.65rem;
+    }
+
+    html body.home .section-subtitle {
+        font-size: 0.95rem;
+    }
+
+    html body.home .section-header {
+        margin-bottom: 2.25rem;
+    }
+
+    /* Corner ticks crowd a narrow screen */
+    html body.home .section-frame .corner {
+        display: none;
+    }
+
+    html body.home .cta-band {
+        padding: 2.5rem 1.5rem;
+        border-radius: 14px;
+    }
+
+    html body.home .cta-band h2 {
+        font-size: 1.5rem;
+    }
+
+    html body.home .stamp {
+        width: 84px;
+        height: 84px;
+    }
+
+    html body.home .dim-divider {
+        font-size: 0.6rem;
+        padding: 0 1.25rem;
+    }
+
+    /* ── inner pages ── */
+
+    html body .page-hero {
+        min-height: auto;
+        padding: 4.5rem 1.25rem 6rem;
+    }
+
+    html body .page-hero h1 {
+        font-size: clamp(1.85rem, 8vw, 2.5rem);
+        line-height: 1.15;
+    }
+
+    html body .page-hero p {
+        font-size: 0.98rem;
+    }
+
+    html body .section {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    html body .section-title {
+        font-size: 1.65rem;
+    }
+
+    /* ── footers ── */
+
+    html body.home .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1.25rem;
+    }
+
+    html body.home .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.25rem;
+        padding: 1.5rem 1.25rem;
+    }
+
+    html body.home .footer-rev {
+        font-size: 0.62rem;
+        line-height: 1.6;
+    }
+
+    /* ── inner-page header CTA ──
+       At 320px the row is logo + burger + toggle + "Contact Us", which
+       pushed the button 87px past the viewport and gave the whole page a
+       horizontal scrollbar. The homepage already hides its CTA here;
+       inner pages now match. Contact stays reachable from the menu. */
+
+    html body:not(.home) nav > .cta-button {
+        display: none;
+    }
+
+    /* ── floating widgets must not sit on top of content ── */
+
+    html body #whatsapp-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.35rem;
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    html body #scrollTopBtn {
+        width: 40px;
+        height: 40px;
+        bottom: 4.75rem;
+        right: 1.15rem;
+    }
+
+    html body.home #backToTop {
+        width: 40px;
+        height: 40px;
+        bottom: 4.75rem;
+        right: 1.15rem;
+    }
+}
+
+
+/* ==========================================================================
+   3. SMALL PHONE (≤ 480px)
+   320–430px. The headline needs to hold three lines without breaking a
+   word, and the stats grid needs room for its labels.
+   ========================================================================== */
+
+@media (max-width: 480px) {
+
+    html body.home .hero {
+        padding: 8rem 1rem 3rem;
+    }
+
+    html body.home .hero h1 {
+        font-size: clamp(1.75rem, 9vw, 2.25rem);
+    }
+
+    html body.home .hero p.lead {
+        font-size: 0.95rem;
+    }
+
+    html body.home .hero-badge {
+        font-size: 0.55rem;
+        letter-spacing: 0.04em;
+    }
+
+    html body.home .hero-svc-pill {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.7rem;
+    }
+
+    html body.home .hero-stats-bar-num {
+        font-size: 1.4rem;
+    }
+
+    html body.home .hero-stats-bar-lbl {
+        font-size: 0.55rem;
+    }
+
+    html body.home .section-frame,
+    html body .section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    html body.home .section-title,
+    html body .section-title {
+        font-size: 1.45rem;
+    }
+
+    html body .page-hero h1 {
+        font-size: clamp(1.7rem, 8.5vw, 2.1rem);
+    }
+
+    /* Cards and form controls need the full width at this size */
+    html body .service-card,
+    html body .value-card,
+    html body .blog-card,
+    html body .portfolio-item,
+    html body .contact-item {
+        padding: 1.5rem 1.25rem;
+    }
+
+    html body .contact-form input,
+    html body .contact-form textarea {
+        font-size: 16px; /* iOS zooms the page for anything smaller */
+    }
+
+    /* A fixed-column table cannot fit 320px. Give it its own scroll
+       container rather than letting it stretch the whole page. */
+    html body .compare-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        font-size: 0.82rem;
+    }
+
+    /* The timeline's number column plus its body overshot by 2px */
+    html body .timeline-step {
+        grid-template-columns: 48px 1fr;
+        gap: 0.75rem;
+    }
+
+    html body .step-deliverables {
+        gap: 0.4rem;
+    }
+
+    html body .deliverable {
+        font-size: 0.75rem;
+    }
+}
+
+
+/* ==========================================================================
+   4. TOUCH DEVICES
+   Anything the finger has to hit gets a 44px target. Tilt and magnetic
+   effects are already disabled on coarse pointers in 3d.css.
+   ========================================================================== */
+
+@media (hover: none) and (pointer: coarse) {
+
+    html body .nav-item > a,
+    html body .dropdown a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    html body .footer-section ul a,
+    html body .footer-socials a,
+    html body .learn-more,
+    html body .sdc-cta,
+    html body .ghost-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    html body .faq-question {
+        min-height: 56px;
+    }
+
+    html body .logo,
+    html body.home .logo {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    html body.home .logo {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    html body .contact-form input,
+    html body .contact-form textarea,
+    html body .contact-form button {
+        min-height: 48px;
+        font-size: 16px;
+    }
+
+    /* Hover-only affordances never trigger on touch; show them at rest */
+    html body .service-card,
+    html body .value-card,
+    html body .blog-card {
+        transform: none !important;
+    }
+}
+
+
+/* ==========================================================================
+   5. LANDSCAPE PHONE
+   A 100vh hero on a 400px-tall landscape phone leaves no room to read.
+   ========================================================================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+    html body.home .hero {
+        min-height: auto;
+        padding-top: 7rem;
+        padding-bottom: 2.5rem;
+    }
+
+    html body .page-hero {
+        min-height: auto;
+        padding-top: 4rem;
+        padding-bottom: 5rem;
+    }
+
+    html body.home #navMenu {
+        padding-top: 4.5rem;
+    }
+}
+
+
+/* ==========================================================================
+   6. LARGE DESKTOP (≥ 1600px)
+   The 1360px container left a third of a 1920px screen empty.
+   ========================================================================== */
+
+@media (min-width: 1600px) {
+
+    html body nav,
+    html body.home nav,
+    html body .section-frame,
+    html body.home .section-frame,
+    html body .footer-content,
+    html body.home .footer-content,
+    html body.home .dim-divider,
+    html body.home .footer-bottom,
+    html body .section {
+        max-width: 1560px;
+    }
+
+    html body.home .hero-inner {
+        max-width: 1040px;
+    }
+
+    html body.home .hero p.lead {
+        font-size: 1.28rem;
+        max-width: 660px;
+    }
+
+    html body.home .hero-stats-bar {
+        max-width: 920px;
+    }
+}
+
+
+/* ==========================================================================
+   7. TV / 4K (≥ 2000px)
+   Viewed from further away, so everything scales up rather than just
+   spreading out. The hero was a small island in the middle of the screen.
+   ========================================================================== */
+
+@media (min-width: 2000px) {
+
+    html body nav,
+    html body.home nav,
+    html body .section-frame,
+    html body.home .section-frame,
+    html body .footer-content,
+    html body.home .footer-content,
+    html body.home .dim-divider,
+    html body.home .footer-bottom,
+    html body .section {
+        max-width: 1800px;
+    }
+
+    html body.home .hero-inner {
+        max-width: 1200px;
+    }
+
+    html body.home .hero h1 {
+        font-size: clamp(5.6rem, 4.6vw, 7.5rem);
+    }
+
+    html body.home .hero p.lead {
+        font-size: 1.45rem;
+        max-width: 760px;
+    }
+
+    html body.home .hero-badge {
+        font-size: 0.82rem;
+        padding: 0.5rem 1.35rem;
+    }
+
+    html body.home .hero-svc-pill {
+        font-size: 0.95rem;
+        padding: 0.65rem 1.3rem;
+    }
+
+    html body.home .hero-stats-bar {
+        max-width: 1100px;
+    }
+
+    html body.home .hero-stats-bar-num {
+        font-size: 2.6rem;
+    }
+
+    html body.home .hero-stats-bar-lbl {
+        font-size: 0.78rem;
+    }
+
+    html body.home .primary-btn,
+    html body.home .secondary-btn {
+        font-size: 0.95rem;
+        padding: 1.15rem 2.35rem;
+    }
+
+    html body.home .section-title,
+    html body .section-title {
+        font-size: 3.1rem;
+    }
+
+    html body.home .section-subtitle {
+        font-size: 1.2rem;
+        max-width: 680px;
+    }
+
+    html body .page-hero h1 {
+        font-size: 4.2rem;
+    }
+
+    html body .page-hero p {
+        font-size: 1.25rem;
+    }
+
+    html body .nav-item > a,
+    html body.home .nav-item > a {
+        font-size: 1.05rem;
+    }
+
+    html body .service-card p,
+    html body .value-card p,
+    html body.home .service-card p {
+        font-size: 1.02rem;
+    }
+}
+
+
+/* ==========================================================================
+   8. ULTRA-WIDE (≥ 2560px)
+   ========================================================================== */
+
+@media (min-width: 2560px) {
+
+    html body nav,
+    html body.home nav,
+    html body .section-frame,
+    html body.home .section-frame,
+    html body .footer-content,
+    html body.home .footer-content,
+    html body.home .dim-divider,
+    html body.home .footer-bottom,
+    html body .section {
+        max-width: 2100px;
+    }
+
+    html body.home .hero-inner {
+        max-width: 1360px;
+    }
+}
+
+
+/* ==========================================================================
+   9. PRINT
+   ========================================================================== */
+
+@media print {
+
+    html body .apex-canvas,
+    html body #whatsapp-btn,
+    html body #scrollTopBtn,
+    html body.home #backToTop,
+    html body.home #page-loader,
+    html body.home #scrollProgress,
+    html body .hamburger,
+    html body .skip-link {
+        display: none !important;
+    }
+
+    html body #mainHeader {
+        position: static;
+    }
+
+    html body .reveal,
+    html body .reveal-3d {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

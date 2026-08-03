@@ -34,9 +34,14 @@ Node **18.17+** is required (see `engines` in `package.json`).
 | `/`            | `app/(home)/page.tsx`          | Static    |
 | `/about`       | `app/(site)/about/page.tsx`    | Static    |
 | `/services`    | `app/(site)/services/page.tsx` | Static    |
+| `/services/[slug]` | `app/(site)/services/[slug]/page.tsx` | SSG × 7 |
 | `/products`    | `app/(site)/products/page.tsx` | Static    |
+| `/products/case-studies` | `app/(site)/products/case-studies/page.tsx` | Static |
+| `/products/tech-stack` | `app/(site)/products/tech-stack/page.tsx` | Static |
 | `/process`     | `app/(site)/process/page.tsx`  | Static    |
 | `/insights`    | `app/(site)/insights/page.tsx` | Static    |
+| `/insights/blog` | `app/(site)/insights/blog/page.tsx` | Static |
+| `/insights/faq` | `app/(site)/insights/faq/page.tsx` | Static |
 | `/contact`     | `app/(site)/contact/page.tsx`  | Static    |
 | 404            | `app/not-found.tsx`            | Static    |
 | `/api/contact` | `app/api/contact/route.ts`     | Dynamic   |
@@ -105,6 +110,13 @@ CSS is plain and global, split by scope rather than by component. See
 | `globals.css` | `(site)` layout + `not-found` only |
 | `pages.css`   | `(site)` layout + `not-found` only |
 | `home.css`    | `/` only, scoped under `body.home` |
+| `responsive.css` | root layout — every route, loaded last |
+| `detail.css`  | `(site)` layout + `not-found` — detail pages |
+
+`responsive.css` holds every device adaptation in one place (phone,
+tablet, large desktop, TV, touch, landscape, print). Its rules sit in
+media queries that exclude 1024–1599px, so the desktop design is never
+touched by them.
 
 > The homepage does **not** load `globals.css`. The original `index.html`
 > was self-contained, and 19 of its selectors collide with the shared
@@ -115,19 +127,42 @@ CSS is plain and global, split by scope rather than by component. See
 
 ## Contact form
 
-The form posts JSON to `/api/contact`. That route validates and normalises
-the payload, then calls a single `deliver()` function.
+Enquiries are emailed to **info@apexintelligence.in**. Every submission
+sends two messages: a notification to you with **Reply-To set to the
+enquirer** — so hitting reply in Gmail reaches them directly — and an
+acknowledgement to them confirming it arrived.
 
-**`deliver()` is intentionally not wired to a provider.** Set
-`CONTACT_WEBHOOK_URL` to forward enquiries with no code change, or replace
-the function body with your own call (Resend, SendGrid, a CRM webhook, a
-database write). Until then it validates, logs a warning, and returns
-success so the UI can be exercised end to end.
+Three transports; the first one configured wins:
+
+| Transport | Set | Notes |
+| --------- | --- | ----- |
+| SMTP | `SMTP_HOST` `SMTP_USER` `SMTP_PASS` | Recommended. Sends through the info@ mailbox itself, no third party |
+| Resend | `RESEND_API_KEY` | Better deliverability at volume; needs domain verification |
+| Webhook | `CONTACT_WEBHOOK_URL` | Forwards raw JSON to Zapier, a CRM, anything |
+
+Spam protection is built in and needs no configuration: a honeypot
+field, a sub-three-second timing check, and a five-per-ten-minutes rate
+limit per IP.
+
+**Setup takes about five minutes — see [EMAIL_SETUP.md](EMAIL_SETUP.md).**
+Until credentials are supplied the form returns 503 and tells the visitor
+to call instead. It never reports success without delivering.
 
 ```bash
-# .env.local
-CONTACT_WEBHOOK_URL=https://…
+# .env.local — every option is documented in .env.example
+CONTACT_TO=info@apexintelligence.in
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=info@apexintelligence.in
+SMTP_PASS=your-app-password
 NEXT_PUBLIC_SITE_URL=https://apexintelligence.in
+```
+
+Check what is live at any time:
+
+```bash
+curl https://apexintelligence.in/api/contact
+# { "ok": true, "channel": "smtp", "configured": true }
 ```
 
 ---
@@ -148,6 +183,7 @@ configuration is required. Details and alternatives in
 | [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) | Every directory and file               |
 | [CUSTOMIZATION.md](CUSTOMIZATION.md)         | Editing content, colours, copy, the 3D |
 | [WEBSITE_GUIDE.md](WEBSITE_GUIDE.md)         | Page-by-page content map               |
+| [EMAIL_SETUP.md](EMAIL_SETUP.md)             | Wiring the contact form to your inbox  |
 | [DEPLOYMENT.md](DEPLOYMENT.md)               | Vercel, env vars, domains, checks      |
 | [COMPLETION_REPORT.md](COMPLETION_REPORT.md) | What the 2.0 migration changed and why |
 | [CHANGELOG.md](CHANGELOG.md)                 | Version history                        |

@@ -93,6 +93,71 @@ for wiring up delivery.
 
 ---
 
+## Service detail pages
+
+**Route:** `/services/[slug]` · **Template:** `app/(site)/services/[slug]/page.tsx` · **Content:** `lib/services.ts`
+
+Seven pages from one template. Each is reached from the Services
+dropdown, from the matching card on `/services`, and from the homepage
+service grid.
+
+| Slug | Page |
+| ---- | ---- |
+| `web-development`  | Web Development |
+| `enterprise-apps`  | Enterprise Apps |
+| `erp-systems`      | ERP Systems |
+| `machine-learning` | Machine Learning |
+| `data-analytics`   | Data Analytics & BI |
+| `cloud-devops`     | Cloud & DevOps |
+| `maintenance-amc`  | Maintenance & AMC |
+
+Every page has the same nine sections: hero with the `lattice` scene ·
+breadcrumb · at-a-glance facts (timeline, price, quote, post-launch) ·
+overview with a "best fit if" panel · scope checklist · four-stage
+process · deliverables and technology stack · four FAQs · two related
+services · closing call to action.
+
+To add a service, append an entry to `lib/services.ts`. The route, the
+sitemap entry and the related-services links all follow from it.
+
+---
+
+## `/products/case-studies` — Case Studies
+
+Six projects, each with the problem, what we did, what changed, three
+measured results and the stack used. Client names are withheld
+deliberately — most of this is internal software; sector, location and
+outcome are real. Content in `lib/work.ts`.
+
+---
+
+## `/products/tech-stack` — Tech Stack
+
+Four selection principles, then six technology groups (frontend,
+backend, data, machine learning, cloud, integrations) with a one-line
+reason per tool, followed by what every handover includes. Content in
+`lib/work.ts`.
+
+---
+
+## `/insights/blog` — Blog
+
+Nine articles with dates, read times and tags. The most recent is
+featured; the rest form a list. Entries live in `lib/blog.ts` and the
+page carries `Blog` structured data. When full posts are written they
+become `/insights/blog/[slug]`.
+
+---
+
+## `/insights/faq` — FAQ
+
+24 questions in five groups — working together, scope and pricing,
+delivery and timelines, technical, support and maintenance — with jump
+links at the top. Content in `lib/faq.ts`. Carries `FAQPage` structured
+data, so individual answers can surface directly in search results.
+
+---
+
 ## 404
 
 **File:** `app/not-found.tsx`

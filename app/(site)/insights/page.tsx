@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Image from 'next/image';
 
 import FaqAccordion from '@/components/sections/FaqAccordion';
@@ -29,6 +30,12 @@ export default function InsightsPage() {
                   <p>Things we&apos;ve learned building software for businesses in Nashik and across India.</p>
               </div>
           </section>
+
+      <nav className="detail-breadcrumb" aria-label="Section">
+        <Link href="/insights/blog">All articles</Link>
+        <span aria-hidden="true">/</span>
+        <Link href="/insights/faq">Full FAQ</Link>
+      </nav>
 
           <section id="blog" className="section">
               <div className="section-header reveal">

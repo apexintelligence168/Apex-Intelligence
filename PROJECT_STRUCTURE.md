@@ -32,10 +32,18 @@ app/
 ├── (site)/                   # every route that shares the standard shell
 │   ├── layout.tsx            # SiteHeader + SiteFooter + ScrollTop + PageEffects
 │   ├── about/page.tsx        # /about
-│   ├── services/page.tsx     # /services
-│   ├── products/page.tsx     # /products
+│   ├── services/
+│   │   ├── page.tsx          # /services  (overview)
+│   │   └── [slug]/page.tsx   # 7 service detail pages, prerendered
+│   ├── products/
+│   │   ├── page.tsx          # /products  (overview)
+│   │   ├── case-studies/     # /products/case-studies
+│   │   └── tech-stack/       # /products/tech-stack
 │   ├── process/page.tsx      # /process
-│   ├── insights/page.tsx     # /insights
+│   ├── insights/
+│   │   ├── page.tsx          # /insights  (overview)
+│   │   ├── blog/             # /insights/blog
+│   │   └── faq/              # /insights/faq
 │   └── contact/page.tsx      # /contact
 │
 └── api/
@@ -111,7 +119,11 @@ components and ship no per-element JavaScript.
 | File         | Contents                                                        |
 | ------------ | --------------------------------------------------------------- |
 | `site.ts`    | `siteConfig`, `contact`, `navigation`, social links, sitemap routes |
-| `content.ts` | FAQ entries for `/insights`                                     |
+| `content.ts` | Short FAQ set shown on `/insights`                              |
+| `services.ts`| Full content for the 7 service detail pages                     |
+| `work.ts`    | Case studies and the technology stack                           |
+| `blog.ts`    | Article index for `/insights/blog`                              |
+| `faq.ts`     | 24 grouped questions for `/insights/faq`                        |
 
 `lib/site.ts` is the single source of truth for contact details and
 navigation. Before the migration those were duplicated across eight HTML
@@ -128,6 +140,8 @@ files; changing a phone number meant eight edits and usually missing one.
 | `globals.css` | ~35 kB| `(site)` layout + `not-found`      | header, nav, hero, sections, cards, forms |
 | `pages.css`   | ~29 kB| `(site)` layout + `not-found`      | route-scoped blocks (about/process/contact/404) |
 | `home.css`    | ~31 kB| `/` only                           | the homepage blueprint design             |
+| `responsive.css` | ~14 kB | root layout (every route, last) | phone / tablet / TV / touch / print adaptations |
+| `detail.css`  | ~11 kB| `(site)` layout + `not-found`      | breadcrumbs, fact cards, steps, case cards, post list |
 
 **The homepage does not load `globals.css`.** The original `index.html` was
 self-contained and never linked `shared.css`; 19 selectors collide

@@ -42,7 +42,8 @@ export default function HomeHeader() {
   }, []);
 
   const handleGroupClick = (e: React.MouseEvent, label: string) => {
-    if (window.innerWidth <= 760) {
+    // Must match the nav breakpoint in responsive.css (1024px).
+    if (window.innerWidth <= 1024) {
       e.preventDefault();
       setOpenGroup((cur) => (cur === label ? null : label));
     }

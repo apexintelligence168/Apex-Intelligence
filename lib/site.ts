@@ -54,21 +54,21 @@ export const navigation: NavGroup[] = [
     label: 'Services',
     href: '/services',
     items: [
-      { label: 'Web Development', href: '/services#web', icon: 'fas fa-globe' },
-      { label: 'Enterprise Apps', href: '/services#apps', icon: 'fas fa-cube' },
-      { label: 'ERP Systems', href: '/services#erp', icon: 'fas fa-layer-group' },
-      { label: 'Machine Learning', href: '/services#ml', icon: 'fas fa-brain' },
-      { label: 'Data Analytics', href: '/services#analytics', icon: 'fas fa-chart-line' },
-      { label: 'Cloud & DevOps', href: '/services#cloud', icon: 'fas fa-cloud' },
-      { label: 'Maintenance & AMC', href: '/services#maintenance', icon: 'fas fa-tools' },
+      { label: 'Web Development', href: '/services/web-development', icon: 'fas fa-globe' },
+      { label: 'Enterprise Apps', href: '/services/enterprise-apps', icon: 'fas fa-cube' },
+      { label: 'ERP Systems', href: '/services/erp-systems', icon: 'fas fa-layer-group' },
+      { label: 'Machine Learning', href: '/services/machine-learning', icon: 'fas fa-brain' },
+      { label: 'Data Analytics', href: '/services/data-analytics', icon: 'fas fa-chart-line' },
+      { label: 'Cloud & DevOps', href: '/services/cloud-devops', icon: 'fas fa-cloud' },
+      { label: 'Maintenance & AMC', href: '/services/maintenance-amc', icon: 'fas fa-tools' },
     ],
   },
   {
     label: 'Work',
     href: '/products',
     items: [
-      { label: 'Case Studies', href: '/products#portfolio', icon: 'fas fa-briefcase' },
-      { label: 'Tech Stack', href: '/products#tech', icon: 'fas fa-code' },
+      { label: 'Case Studies', href: '/products/case-studies', icon: 'fas fa-briefcase' },
+      { label: 'Tech Stack', href: '/products/tech-stack', icon: 'fas fa-code' },
       { divider: true },
       { label: 'Start a Project', href: '/contact', icon: 'fas fa-paper-plane' },
     ],
@@ -77,8 +77,8 @@ export const navigation: NavGroup[] = [
     label: 'Insights',
     href: '/insights',
     items: [
-      { label: 'Blog', href: '/insights#blog', icon: 'fas fa-newspaper' },
-      { label: 'FAQ', href: '/insights#faq', icon: 'fas fa-question-circle' },
+      { label: 'Blog', href: '/insights/blog', icon: 'fas fa-newspaper' },
+      { label: 'FAQ', href: '/insights/faq', icon: 'fas fa-question-circle' },
     ],
   },
 ];
@@ -96,13 +96,22 @@ export const homeFooterSocials: SocialLink[] = [
   { label: 'Instagram', href: '#', icon: 'fab fa-instagram' },
 ];
 
-/** Routes included in the generated sitemap. */
+/**
+ * Routes included in the generated sitemap.
+ *
+ * Service detail pages are appended from lib/services.ts in
+ * app/sitemap.ts so the two lists can never fall out of step.
+ */
 export const routes = [
   { path: '/', priority: 1.0, changeFrequency: 'weekly' },
   { path: '/about', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/services', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/products', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/products/case-studies', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/products/tech-stack', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/process', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/insights', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/insights/blog', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/insights/faq', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.9, changeFrequency: 'monthly' },
 ] as const;

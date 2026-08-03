@@ -44,7 +44,7 @@ export default function ServicesPage() {
                               <li>Payment Gateway Integration</li>
                               <li>Mobile-Responsive Design</li>
                           </ul>
-                          <Link href="/contact" className="sdc-cta">Discuss a project <i className="fas fa-arrow-right"></i></Link>
+                          <Link href="/services/web-development" className="sdc-cta">Read more <i className="fas fa-arrow-right"></i></Link>
                       </div>
                   </div>
 
@@ -59,7 +59,7 @@ export default function ServicesPage() {
                               <li>REST & GraphQL APIs</li>
                               <li>Progressive Web Apps (PWA)</li>
                           </ul>
-                          <Link href="/contact" className="sdc-cta">Discuss a project <i className="fas fa-arrow-right"></i></Link>
+                          <Link href="/services/enterprise-apps" className="sdc-cta">Read more <i className="fas fa-arrow-right"></i></Link>
                       </div>
                   </div>
 
@@ -74,7 +74,7 @@ export default function ServicesPage() {
                               <li>Inventory & Supply Chain Modules</li>
                               <li>HR, Payroll & Finance Automation</li>
                           </ul>
-                          <Link href="/contact" className="sdc-cta">Discuss a project <i className="fas fa-arrow-right"></i></Link>
+                          <Link href="/services/erp-systems" className="sdc-cta">Read more <i className="fas fa-arrow-right"></i></Link>
                       </div>
                   </div>
 
@@ -89,7 +89,7 @@ export default function ServicesPage() {
                               <li>NLP & Chatbots</li>
                               <li>Recommendation Engines</li>
                           </ul>
-                          <Link href="/contact" className="sdc-cta">Discuss a project <i className="fas fa-arrow-right"></i></Link>
+                          <Link href="/services/machine-learning" className="sdc-cta">Read more <i className="fas fa-arrow-right"></i></Link>
                       </div>
                   </div>
 
@@ -104,7 +104,7 @@ export default function ServicesPage() {
                               <li>Real-time Reporting</li>
                               <li>Sales & Operations Analytics</li>
                           </ul>
-                          <Link href="/contact" className="sdc-cta">Discuss a project <i className="fas fa-arrow-right"></i></Link>
+                          <Link href="/services/data-analytics" className="sdc-cta">Read more <i className="fas fa-arrow-right"></i></Link>
                       </div>
                   </div>
 
@@ -119,7 +119,7 @@ export default function ServicesPage() {
                               <li>CI/CD Pipelines</li>
                               <li>Infrastructure as Code (Terraform)</li>
                           </ul>
-                          <Link href="/contact" className="sdc-cta">Discuss a project <i className="fas fa-arrow-right"></i></Link>
+                          <Link href="/services/cloud-devops" className="sdc-cta">Read more <i className="fas fa-arrow-right"></i></Link>
                       </div>
                   </div>
 
@@ -136,7 +136,7 @@ export default function ServicesPage() {
                               <li>Security Patches & Backups</li>
                               <li>On-site Support (Maharashtra)</li>
                           </ul>
-                          <Link href="/contact" className="sdc-cta">Discuss a project <i className="fas fa-arrow-right"></i></Link>
+                          <Link href="/services/maintenance-amc" className="sdc-cta">Read more <i className="fas fa-arrow-right"></i></Link>
                       </div>
                   </div>
 

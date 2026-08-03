@@ -1,5 +1,6 @@
 import '@/styles/globals.css';
 import '@/styles/pages.css';
+import '@/styles/detail.css';
 
 import PageEffects from '@/components/layout/PageEffects';
 import SiteFooter from '@/components/layout/SiteFooter';

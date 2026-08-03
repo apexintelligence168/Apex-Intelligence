@@ -60,8 +60,9 @@ export default function SiteHeader() {
   }, []);
 
   const handleGroupClick = (e: React.MouseEvent, label: string) => {
-    // On mobile the parent link toggles its dropdown instead of navigating
-    if (window.innerWidth <= 768) {
+    // Below the nav breakpoint the parent link toggles its dropdown
+    // instead of navigating. Must match responsive.css (1024px).
+    if (window.innerWidth <= 1024) {
       e.preventDefault();
       setOpenGroup((cur) => (cur === label ? null : label));
     }
